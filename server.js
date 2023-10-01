@@ -1,6 +1,7 @@
 const express = require("express");
 const fs = require("fs");
 const cors = require("cors");
+const path = require("path");
 require("dotenv").config();
 const fileupload = require("express-fileupload");
 
@@ -15,6 +16,15 @@ app.use(fileupload());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+app.get("/api/:video", async (req, res) => {
+  res.writeHead(200, {
+    "Content-Type": "video/mp4",
+  });
+  const file = req.params.video;
+  filepath = "./routes/uploads/" + file;
+  console.log(filepath);
+  fs.createReadStream(filepath).pipe(res);
+});
 app.use(router);
 app.use("/api", router);
 
