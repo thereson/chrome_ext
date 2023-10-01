@@ -23,7 +23,11 @@ app.get("/api/all", async (req, res) => {
       if (error) {
         console.log(error);
       } else {
-        res.json(files);
+        let mov = files.map((file) => {
+          return `http://54.221.51.134:9000/api/${file}`;
+        });
+
+        res.json(mov);
       }
     });
   } catch (err) {
