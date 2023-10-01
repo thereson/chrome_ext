@@ -15,6 +15,21 @@ app.use(
 app.use(fileupload());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.get("/api/all", async (req, res) => {
+  let ls = path.join(__dirname, "routes/uploads");
+  // let filedpath = "./routes/";
+  try {
+    let files = fs.readdir(ls, (error, files) => {
+      if (error) {
+        console.log(error);
+      } else {
+        res.json(files);
+      }
+    });
+  } catch (err) {
+    res.send(err.message);
+  }
+});
 
 app.get("/api/:video", async (req, res) => {
   try {
