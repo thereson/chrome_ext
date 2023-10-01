@@ -17,13 +17,17 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.get("/api/:video", async (req, res) => {
-  res.writeHead(200, {
-    "Content-Type": "video/mp4",
-  });
-  const file = req.params.video;
-  filepath = "./routes/uploads/" + file;
-  console.log(filepath);
-  fs.createReadStream(filepath).pipe(res);
+  try {
+    res.writeHead(200, {
+      "Content-Type": "video/mp4",
+    });
+    const file = req.params.video;
+    filepath = "./routes/uploads/" + file;
+    console.log(filepath);
+    fs.createReadStream(filepath).pipe(res);
+  } catch (err) {
+    res.send(err.message);
+  }
 });
 app.use(router);
 app.use("/api", router);
