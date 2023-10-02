@@ -2,6 +2,8 @@ const express = require("express");
 const fs = require("fs");
 const cors = require("cors");
 const path = require("path");
+const { stat } = require("fs");
+const { promisify } = require("util");
 require("dotenv").config();
 const fileupload = require("express-fileupload");
 
@@ -37,13 +39,23 @@ app.get("/api/all", async (req, res) => {
 
 app.get("/api/:video", async (req, res) => {
   try {
+    let range = req.header.range;
+    if (range) {
+      let [start, end] = range.replace(/bytes=/, "").split("-");
+      start = parseInt(start, 10);
+      end = end ? parseInt(end, 10) : size - 1;
+    } else {
+      res.writeHead(200, {
+        "Content-Type": "video/mp4",
+      });
+      const file = req.params.video;
+      filepath = "./routes/uploads/" + file;
+      console.log(filepath);
+      fs.createReadStream(filepath).pipe(res);
+    }
     res.writeHead(200, {
       "Content-Type": "video/mp4",
     });
-    const file = req.params.video;
-    filepath = "./routes/uploads/" + file;
-    console.log(filepath);
-    fs.createReadStream(filepath).pipe(res);
   } catch (err) {
     res.send(err.message);
   }
