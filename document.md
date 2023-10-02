@@ -2,11 +2,12 @@
 
 my api documentation
 
-`POST  http://localhost:900/api/`
+`POST  http://54.221.51.134:900/api/`
+
 
 for posting the video to the server after the recording
 
-`GET http://54.221.51.134:9000/api/:`
+`GET http://54.221.51.134:9000/api/1696187024593.mp4`
 
 to get a specific video by it name on the server
 
