@@ -18,7 +18,7 @@ router.post("/", async (req, res) => {
 
     let audio = fs.createReadStream(`${savepath}`);
     let audioStream = fs.createWriteStream(`${savepath}.txt`);
-    let videoPath = savepath.split("\\");
+    let videoPath = savepath.split("/");
 
     videoPath = videoPath[videoPath.length - 1];
 
@@ -28,8 +28,8 @@ router.post("/", async (req, res) => {
     console.log(text);
     let Message = {
       message: "file uploaded successfully",
-      url: `http://localhost:9000/api/${videoPath}`,
-      transcript: `http://localhost:9000/`,
+      url: `http://54.221.51.134:9000/api/${videoPath}`,
+      transcript: `http://54.221.51.134:9000/`,
       status: 200,
     };
     res.json(Message);
